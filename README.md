@@ -18,31 +18,39 @@ A practical e-commerce application deployed on Microsoft Azure using separate fr
 ## Architecture
 
 ```mermaid
-flowchart TD
-    USER[User Browser / Internet]
-    PIP[Frontend Public IP]
+flowchart LR
+    USER["User Browser / Internet"]
 
-    subgraph AZURE[Azure VNet - 10.26.0.0/16]
-        subgraph FRONTEND[frontend-subnet - 10.26.1.0/24]
-            FVM[Frontend VM\nUbuntu + Nginx\nPrivate IP 10.26.1.5]
-            UI[HTML + CSS + JavaScript]
-            FVM --> UI
-        end
+    subgraph AZURE["Microsoft Azure"]
+        subgraph VNET["Azure VNet: 10.26.0.0/16"]
 
-        subgraph BACKEND[backend-subnet - 10.26.2.0/24]
-            BVM[Backend VM\nNode.js + Express + PM2\nPrivate IP 10.26.2.5\nPort 5000]
-        end
+            subgraph FRONTEND_SUBNET["Frontend Subnet: 10.26.1.0/24"]
+                FRONTEND_NSG["Frontend NSG<br/>Allow HTTP :80<br/>Allow SSH :22"]
+                FRONTEND["Frontend VM<br/>Ubuntu Linux<br/>Nginx<br/>HTML, CSS, JavaScript<br/>Private IP: 10.26.1.5"]
+                FRONTEND_NSG --> FRONTEND
+            end
 
-        subgraph DATABASE[db-subnet - 10.26.3.0/24]
-            DVM[Database VM\nPostgreSQL\nPrivate IP 10.26.3.4\nPort 5432]
-            PRODUCTS[(products table)]
-            DVM --> PRODUCTS
+            subgraph BACKEND_SUBNET["Backend Subnet: 10.26.2.0/24"]
+                BACKEND_NSG["Backend NSG<br/>Allow API :5000<br/>from Frontend subnet"]
+                BACKEND["Backend VM<br/>Ubuntu Linux<br/>Node.js + Express.js<br/>PM2 Process Manager<br/>pg + dotenv + CORS<br/>Private IP: 10.26.2.5"]
+                BACKEND_NSG --> BACKEND
+            end
+
+            subgraph DB_SUBNET["Database Subnet: 10.26.3.0/24"]
+                DB_NSG["Database NSG<br/>Allow PostgreSQL :5432<br/>from Backend subnet"]
+                DATABASE["Database VM<br/>Ubuntu Linux<br/>PostgreSQL<br/>Private IP: 10.26.3.4"]
+                PRODUCTS[("nexora_db<br/>products table")]
+                DB_NSG --> DATABASE
+                DATABASE --> PRODUCTS
+            end
         end
     end
 
-    USER -->|HTTP 80| PIP --> FVM
-    FVM -->|Nginx reverse proxy /api| BVM
-    BVM -->|Private PostgreSQL connection| DVM
+    USER -->|"HTTP :80"| FRONTEND_NSG
+    FRONTEND -->|"Nginx reverse proxy<br/>/api/* → 10.26.2.5:5000"| BACKEND_NSG
+    BACKEND -->|"PostgreSQL connection<br/>10.26.3.4:5432"| DB_NSG
+    DATABASE -->|"Query results"| BACKEND
+    BACKEND -->|"JSON response"| FRONTEND
 ```
 
 ## Traffic flow
