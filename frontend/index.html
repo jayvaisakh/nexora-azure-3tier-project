@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Nexora Azure 3-tier e-commerce application" />
+  <title>Nexora - Azure 3-Tier E-Commerce</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <button class="brand" type="button" data-page="home" aria-label="Nexora home">
+      <span class="brand-icon">N</span>
+      <span>Nexora</span>
+    </button>
+
+    <nav aria-label="Primary navigation">
+      <button class="nav-link active" type="button" data-page="home">Home</button>
+      <button class="nav-link" type="button" data-page="products">Products</button>
+      <button class="nav-link" type="button" data-page="login">Login</button>
+      <button class="nav-link" type="button" data-page="register">Register</button>
+    </nav>
+
+    <div class="nav-actions" aria-label="Shopping actions">
+      <span aria-hidden="true">⌕</span>
+      <span aria-hidden="true">♡</span>
+      <span class="cart" aria-hidden="true">🛒<small>2</small></span>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="page active-page">
+      <div class="hero">
+        <div class="hero-text">
+          <span class="pill">☁ Azure 3-Tier E-Commerce</span>
+          <h1>Cloud-Powered Shopping, Built Across Three Secure Tiers</h1>
+          <p>
+            A practical deployment using Nginx on the frontend VM, a Node.js Express API
+            on the private backend VM, and PostgreSQL on the private database VM.
+          </p>
+          <div class="hero-buttons">
+            <button class="primary" type="button" data-page="products">Shop Products</button>
+            <button class="secondary" type="button" data-page="login">Login</button>
+          </div>
+          <div id="apiStatus" class="api-status checking" role="status">Checking API connectivity...</div>
+        </div>
+
+        <div class="hero-card" aria-label="Featured products illustration">
+          <div class="floating-card large">💻<strong>Cloud Frontend</strong><span>Nginx</span></div>
+          <div class="floating-card">⚙️<strong>Private API</strong><span>Node.js</span></div>
+          <div class="floating-card">🗄️<strong>Data Tier</strong><span>PostgreSQL</span></div>
+        </div>
+      </div>
+
+      <div class="section-heading">
+        <h2>Shop by Category</h2>
+        <p>Browse products delivered dynamically through the Nexora backend API.</p>
+      </div>
+
+      <div class="categories">
+        <button class="category-card blue" type="button" data-category="Electronics">🎧<h3>Electronics</h3><p>Latest gadgets and devices</p></button>
+        <button class="category-card purple" type="button" data-category="Fashion">👟<h3>Fashion</h3><p>Modern styles and apparel</p></button>
+        <button class="category-card green" type="button" data-category="Home">💡<h3>Home</h3><p>Essentials for your space</p></button>
+        <button class="category-card orange" type="button" data-category="Accessories">🎒<h3>Accessories</h3><p>Complete your perfect look</p></button>
+      </div>
+
+      <div class="section-heading row-heading">
+        <div><h2>Featured Products</h2><p>Loaded from PostgreSQL through <code>/api/products</code>.</p></div>
+        <button class="secondary" type="button" data-page="products">View All</button>
+      </div>
+      <div class="product-grid" id="featuredProducts" aria-live="polite"></div>
+    </section>
+
+    <section id="products" class="page">
+      <div class="shop-layout">
+        <aside class="filters">
+          <h3>Filters</h3>
+          <label for="searchInput">Search Products</label>
+          <input id="searchInput" type="search" placeholder="Search product..." />
+
+          <label for="categoryFilter">Category</label>
+          <select id="categoryFilter">
+            <option value="all">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Home">Home</option>
+            <option value="Accessories">Accessories</option>
+          </select>
+
+          <label for="sortFilter">Sort</label>
+          <select id="sortFilter">
+            <option value="default">Default</option>
+            <option value="low">Price: Low to High</option>
+            <option value="high">Price: High to Low</option>
+          </select>
+
+          <button class="clear" id="clearFilters" type="button">Clear Filters</button>
+        </aside>
+
+        <section class="products-area">
+          <div class="page-title">
+            <span class="breadcrumb">Home / Products</span>
+            <h1>Shop All Products</h1>
+            <p>Product data is supplied by the private Node.js API and PostgreSQL database.</p>
+          </div>
+          <div class="product-grid" id="allProducts" aria-live="polite"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="login" class="page auth-page">
+      <div class="auth-card">
+        <div class="auth-visual">
+          <span class="pill">Secure Shopping UI</span>
+          <h1>Welcome Back to Nexora</h1>
+          <p>This completed Project 26 includes the login interface as a frontend demonstration.</p>
+          <div class="mini-stats">
+            <div><strong>3</strong><span>Azure tiers</span></div>
+            <div><strong>Private</strong><span>Backend and DB</span></div>
+            <div><strong>PM2</strong><span>API process</span></div>
+          </div>
+        </div>
+
+        <form class="auth-form" id="loginForm">
+          <h2>Login</h2>
+          <p>Demo interface - authentication was not part of the original Project 26 backend.</p>
+          <label for="loginEmail">Email Address</label>
+          <input id="loginEmail" type="email" placeholder="user@nexora.com" required />
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" placeholder="Enter password" required />
+          <div class="form-row"><label class="checkbox"><input type="checkbox" /> Remember me</label><a href="#login">Forgot password?</a></div>
+          <button class="primary full" type="submit">Log In</button>
+          <p class="demo-message" id="loginMessage" role="status"></p>
+          <p class="switch">Don't have an account? <a href="#register" data-page="register">Create account</a></p>
+        </form>
+      </div>
+    </section>
+
+    <section id="register" class="page auth-page">
+      <div class="auth-card reverse">
+        <form class="auth-form" id="registerForm">
+          <h2>Create Your Nexora Account</h2>
+          <p>Demo registration interface for the submitted project requirement.</p>
+          <label for="registerName">Full Name</label>
+          <input id="registerName" type="text" placeholder="Enter full name" required />
+          <label for="registerEmail">Email Address</label>
+          <input id="registerEmail" type="email" placeholder="Enter email address" required />
+          <label for="registerPhone">Phone Number</label>
+          <input id="registerPhone" type="tel" placeholder="Enter phone number" />
+          <label for="registerPassword">Password</label>
+          <input id="registerPassword" type="password" placeholder="Create password" required />
+          <label for="confirmPassword">Confirm Password</label>
+          <input id="confirmPassword" type="password" placeholder="Confirm password" required />
+          <label class="checkbox"><input id="terms" type="checkbox" required /> I agree to the Terms and Privacy Policy</label>
+          <button class="primary full" type="submit">Create Account</button>
+          <p class="demo-message" id="registerMessage" role="status"></p>
+          <p class="switch">Already have an account? <a href="#login" data-page="login">Log in</a></p>
+        </form>
+
+        <div class="auth-visual">
+          <span class="pill">Frontend Demonstration</span>
+          <h1>Smart Shopping Starts Here</h1>
+          <p>The UI is served from Nginx while product data travels through the complete 3-tier path.</p>
+          <div class="mini-stats">
+            <div><strong>Nginx</strong><span>Frontend</span></div>
+            <div><strong>Express</strong><span>Backend</span></div>
+            <div><strong>PostgreSQL</strong><span>Database</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div><strong>Nexora</strong><p>Azure 3-tier e-commerce deployment project.</p></div>
+    <div><strong>Traffic flow</strong><p>Browser → Nginx → Node.js Express → PostgreSQL</p></div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

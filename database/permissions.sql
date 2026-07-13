@@ -1,0 +1,12 @@
+-- Run as the postgres administrator after creating nexora_user.
+
+GRANT CONNECT ON DATABASE nexora_db TO nexora_user;
+GRANT USAGE ON SCHEMA public TO nexora_user;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO nexora_user;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO nexora_user;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO nexora_user;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT USAGE, SELECT ON SEQUENCES TO nexora_user;

@@ -1,0 +1,53 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Node.js dependencies and logs
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# SSH keys, certificates, and credential files
+*.pem
+*.key
+*.ppk
+*.pfx
+*.p12
+*.crt
+*.cer
+*.pub
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+authorized_keys
+
+# Azure CLI local credentials/cache
+.azure/
+
+# Terraform state and sensitive variable files
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+
+# PM2 local data
+.pm2/
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+*:Zone.Identifier
