@@ -234,12 +234,6 @@ pm2 status
 pm2 logs nexora-backend
 ```
 
-## Resume description
-
-**Nexora - Azure 3-Tier E-Commerce Deployment**
-
-- Designed and deployed a 3-tier cloud architecture with separate frontend, backend, and database subnets using private-IP communication between tiers.
-- Configured PostgreSQL access, Node.js API endpoints, PM2 process management, and Nginx frontend serving; validated health checks, database connectivity, and product APIs.
 
 ## What I learned
 
